@@ -7,6 +7,7 @@ import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import DebugInfo from "@/components/DebugInfo";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,6 +42,7 @@ export default function RootLayout({
         <body className={`${inter.className} bg-dark-2`}>
           <Toaster />
           {children}
+          <DebugInfo />
         </body>
       </ClerkProvider>
     </html>
