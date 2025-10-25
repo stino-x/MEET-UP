@@ -30,6 +30,14 @@ const StreamVideoProvider = ({ children }: { children: ReactNode }) => {
     setVideoClient(client);
   }, [user, isLoaded]);
 
+  // Show loader while Clerk is still loading
+  if (!isLoaded) return <Loader />;
+  
+  // If no user is authenticated, don't block rendering
+  // Let Clerk middleware handle the redirect
+  if (!user) return <>{children}</>;
+
+  // Show loader while Stream client is being initialized
   if (!videoClient) return <Loader />;
 
   return <StreamVideo client={videoClient}>{children}</StreamVideo>;

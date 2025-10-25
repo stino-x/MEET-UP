@@ -19,10 +19,16 @@ const Home = () => {
     return tomorrow.getTime() === date.getTime();
   };
 
-  const startsAt = new Date(nearestCall?.state?.startsAt ?? '');
+  const startsAt = nearestCall?.state?.startsAt ? new Date(nearestCall.state.startsAt) : null;
   
   // Check if the call is scheduled for tomorrow
-  const displayDate = isTomorrow(startsAt) ? "Tomorrow" : startsAt.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  const displayDate = startsAt 
+    ? (isTomorrow(startsAt) ? "Tomorrow" : startsAt.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))
+    : "No upcoming meetings";
+
+  const displayTime = startsAt 
+    ? startsAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+    : "";
 
   const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   const date = (new Intl.DateTimeFormat('en-US', { dateStyle: 'full' })).format(now);
@@ -32,7 +38,10 @@ const Home = () => {
       <div className="h-[303px] w-full rounded-[20px] bg-hero bg-cover">
         <div className="flex h-full flex-col justify-between max-md:px-5 max-md:py-8 lg:p-11">
           <h2 className="glassmorphism max-w-[273px] rounded py-2 text-center text-base font-normal">
-            {`Nearest Upcoming Call: ${displayDate} at ${startsAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`} 
+            {startsAt 
+              ? `Nearest Upcoming Call: ${displayDate} at ${displayTime}` 
+              : displayDate
+            } 
           </h2>
           <div className="flex flex-col gap-2">
             <h1 className="text-4xl font-extrabold lg:text-7xl">{time}</h1>
